@@ -69,5 +69,5 @@ double defSquare(const double a, const double b, const double c)
 
 double defRadius(const double a, const double b, const double c)
 {
-	return (a * b * defA(a, b, c)) / (4*defB(a, b, c));
+	return (a * b * defThirdSide(a, b, c)) / (4* defSquare(a, b, c));
 }
