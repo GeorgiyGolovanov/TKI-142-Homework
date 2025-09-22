@@ -36,7 +36,7 @@ int main(void)
 
 double defA(const double X, const double Y, const double Z)
 {
-	return (pow(X, 2) * (X + 1)) / (Y - sin(X + Z));
+	return (pow(X, 2) * (X + 1)) / (Y - pow(sin(X + Z),2));
 }
 
 double defB(const double X, const double Y, const double Z)
