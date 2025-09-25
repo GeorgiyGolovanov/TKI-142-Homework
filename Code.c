@@ -16,6 +16,10 @@ double defValid();
 */
 double СhoiceFormulas(const double A, const double N, const int s);
 
+/**
+* @brief Точка входа в программу
+* @return Возвращает 0, если программа была выполнена корректно, иначе 1
+*/
 int main(void)
 {
 	system("chcp 1251");
