@@ -9,6 +9,15 @@
 double defValid();
 
 /**
+* @brief Проверяет переменную на условие
+* @param A - значение параметра A
+* @param B - значение параметра B
+* @param C - значение параметра C
+* @return Если хотя бы одно условие верно, возвращает 1, иначе 0
+*/
+_Bool defPlus(const double A, const double B, const double C);
+
+/**
 * @brief Точка входа в программу
 * @return Возвращает 0, если программа была выполнена корректно, иначе 1
 */
@@ -24,13 +33,8 @@ int main(void)
 
 	printf("Введите число C: ");
 	double C = defValid();
-	
-	double AB = (A + B);
-	double AC = (A + C);
-	double BC = (B + C);
-	double ABC = (A + B + C);
 
-	if (AB > 0 || AC > 0 || BC > 0 || ABC > 0)
+	if (defPlus(A,B,C))
 	{
 		printf_s("Есть положительная сумма");
 	}
@@ -51,4 +55,9 @@ double defValid()
 		abort();
 	}
 	return valid;
+}
+
+_Bool defPlus(const double A, const double B, const double C)
+{
+	return A + B > 0 || A + C > 0 || C + B > 0;
 }
