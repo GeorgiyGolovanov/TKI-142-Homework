@@ -9,12 +9,35 @@
 double defValid();
 
 /**
-* @brief Рассчитывает значение по выбранной формуле
+* @brief Проводит рассчёт по первой формуле
 * @param A - значение параметра A
 * @param N - значение параметра N
-* @return Рассчитанное значение
+* @return Считанное значение
 */
-double СhoiceFormulas(const double A, const double N, const int s);
+const double defFirstF(const double A, const double N);
+
+/**
+* @brief Проводит рассчёт по второй формуле
+* @param A - значение параметра A
+* @param N - значение параметра N
+* @return Считанное значение
+*/
+const double defSecondF(const double A, const double N);
+
+/**
+* @brief Проводит рассчёт по третьей формуле
+* @param A - значение параметра A
+* @param N - значение параметра N
+* @return Считанное значение
+*/
+const double defThirdF(const double A, const double N);
+
+/**
+@brief FirstF - первая формула
+@brief SecondF - вторая формула
+@brief ThirdF - третья формула
+*/
+enum {FirstF, SecondF, ThirdF};
 
 /**
 * @brief Точка входа в программу
@@ -30,11 +53,27 @@ int main(void)
 	printf("Введи число N: ");
 	double N = defValid();
 
-	printf("Выберите формулу вычисления (Введите цифру от 1 до 3)\n\
-(домножить число A на N; домножить число A на 2N; домножить число A на 3N): ");
-	int s = defValid();
+	printf("Выберите формулу вычисления: %d-A*N, %d-A*2N, %d-A*3N\n",FirstF,SecondF,ThirdF);
+	int choise = (int)defValid();
 
-	printf("Полученное значение = %.02lf\n", СhoiceFormulas(A, N, s));
+	switch (choise)
+	{
+	case FirstF:
+		printf("Полученное значение = %.02lf\n", defFirstF(A,N));
+		break;
+
+	case SecondF:
+		printf("Полученное значение = %.02lf\n", defSecondF(A, N));
+		break;
+
+	case ThirdF:
+		printf("Полученное значение = %.02lf\n", defThirdF(A, N));
+		break;
+
+	default:
+		printf("Error");
+		abort();
+	}
 
 	return 0;
 }
@@ -42,7 +81,7 @@ int main(void)
 double defValid()
 {
 	double valid = 0;
-	if (!scanf_s("%lf",&valid))
+	if (!scanf_s("%lf", &valid))
 	{
 		printf("Error\n");
 		abort();
@@ -51,23 +90,17 @@ double defValid()
 	return valid;
 }
 
-double СhoiceFormulas(const double A, const double N, const int s)
+const double defFirstF(const double A, const double N)
 {
-	if (s == 1)
-	{
-		return A * N;
-	}
-	else if (s == 2)
-	{
-		return A * 2 * N;
-	}
-	else if (s == 3)
-	{
-		return A * 3 * N;
-	}
-	else
-	{
-		printf("Error\n");
-		abort();
-	}
+	return A * N;
+}
+
+const double defSecondF(const double A, const double N)
+{
+	return A * 2 * N;
+}
+
+const double defThirdF(const double A, const double N)
+{
+	return A * 3 * N;
 }
