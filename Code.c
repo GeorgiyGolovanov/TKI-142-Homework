@@ -19,8 +19,8 @@ int main(void)
 	system("chcp 1251");
 
 	const double Al = 0.028;
-	const double S;
-	const double l;
+	double S;
+	double l;
 	
 	printf("Введите площадь поперечнего сечения проводника в квадратных мм: ");
 		scanf_s("%lf", &S);
