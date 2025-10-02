@@ -12,7 +12,7 @@ double defValid();
 * @brief Проводит рассчёт по первой формуле
 * @param A - значение параметра A
 * @param N - значение параметра N
-* @return Считанное значение
+* @return Рассчитанное значение
 */
 const double defFirstF(const double A, const double N);
 
@@ -20,7 +20,7 @@ const double defFirstF(const double A, const double N);
 * @brief Проводит рассчёт по второй формуле
 * @param A - значение параметра A
 * @param N - значение параметра N
-* @return Считанное значение
+* @return Рассчитанное значение
 */
 const double defSecondF(const double A, const double N);
 
@@ -28,7 +28,7 @@ const double defSecondF(const double A, const double N);
 * @brief Проводит рассчёт по третьей формуле
 * @param A - значение параметра A
 * @param N - значение параметра N
-* @return Считанное значение
+* @return Рассчитанное значение
 */
 const double defThirdF(const double A, const double N);
 
