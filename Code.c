@@ -19,7 +19,7 @@ const double Perevod(const double a, const double x);
 const double F1(const double a, const double x);
 
 /**
-* @brief Рассчитывает значение второй функции
+* @brief Рассчитывает значение первой функции
 * @param a - значение параметра a
 * @param x - значение параметра x
 * @return Рассчитанное значение
@@ -34,32 +34,35 @@ double defValid();
 
 /**
 * @brief Проверяет переменную на условие
-* @param value - значение проверяемой переменной
+* @param x - значение проверяемой переменной
+* @return 0 если условие ложно, иначе 1
 */
-void checkValue(int value);
+_Bool checkX(const int x);
 
-/**
-* @brief Точка входа в программу
-* @return Возвращает 0, если программа была выполнена корректно, иначе 1
-*/
 int main(void)
 {
 	system("chcp 1251");
 
 	const double a = 1.5;
-	printf("Введи число X (большее 6):");
-	int x = defValid();
-	checkValue(x);
+	printf("Введи число X:");
+	int x = (int) defValid();
 	
-	if (x * a < 1)
+	if (checkX(x))
 	{
-		printf("y = %.6lf", F1(a, x));
+		if (x * a < 1)
+		{
+			printf("y = %.6lf", F1(a, x));
+		}
+		else
+		{
+			printf("y = %.6lf", F2(a, x));
+		}
 	}
 	else
 	{
-		printf("y = %.6lf", F2(a, x));
+		printf("Функция неопределена");
 	}
-
+	
 	return 0;
 }
 
@@ -89,13 +92,9 @@ double defValid()
 	return valid;
 }
 
-void checkValue(const int value)
+_Bool checkX(const int x)
 {
-	if (value < 6)
-	{
-		printf("Error\n");
-		abort();
-	}
+	return x >= 6;
 }
 
 const double F1(const double a, const double x)
