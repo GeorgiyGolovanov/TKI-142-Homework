@@ -1,14 +1,7 @@
 #include<stdio.h>
 #include<math.h>
 #include<stdlib.h>
-
-/**
-* @brief Перевод числа в десятичную систему счисления
-* @param a - число
-* @param x - система счисления, в которой записано число
-* @return Рассчитанное значение
-*/
-const double Perevod(const double a, const double x);
+#include<float.h>
 
 /**
 * @brief Рассчитывает значение первой функции
@@ -37,15 +30,15 @@ double defValid();
 * @param x - значение проверяемой переменной
 * @return 0 если условие ложно, иначе 1
 */
-_Bool checkX(const int x);
+_Bool checkX(const double x);
 
 int main(void)
 {
 	system("chcp 1251");
 
 	const double a = 1.5;
-	printf("Введи число X:");
-	int x = (int) defValid();
+	printf("Введи число X: ");
+	double x = defValid();
 	
 	if (checkX(x))
 	{
@@ -66,21 +59,6 @@ int main(void)
 	return 0;
 }
 
-const double Perevod(const double a, const double x)
-{
-	int cell = (int)a;
-	int newdrob = 0;
-	double drob = 0;
-	double systemsch = 0;
-
-	drob = a - cell;
-
-	newdrob = drob * 10;
-	systemsch = cell * pow(x, 0) + newdrob * pow(x, -1);
-
-	return systemsch;
-}
-
 double defValid()
 {
 	double valid = 0;
@@ -92,17 +70,24 @@ double defValid()
 	return valid;
 }
 
-_Bool checkX(const int x)
+_Bool checkX(const double x)
 {
-	return x >= 6;
+	if (fabs(x) < DBL_EPSILON || x < 0) 
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
 }
 
 const double F1(const double a, const double x)
 {
-	return Perevod(a, x) - log10(a * x);
+	return a * x - log10(a * x);
 }
 
 const double F2(const double a, const double x)
 {
-	return Perevod(a, x) + log10(a * x);
+	return a * x + log10(a * x);
 }
