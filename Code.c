@@ -32,6 +32,10 @@ double defValid();
 */
 _Bool checkX(const double x);
 
+/**
+* @brief Точка входа в программу
+* @return Возвращает 0, если программа была выполнена корректно, иначе 1
+*/
 int main(void)
 {
 	system("chcp 1251");
