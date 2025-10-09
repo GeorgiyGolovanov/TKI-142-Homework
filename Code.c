@@ -1,20 +1,21 @@
 #include<stdio.h>
 #include<math.h>
 #include<stdlib.h>
+#include<float.h>
 
 /**
-* @brief Рассчитывает значение по заданной формуле
-* @param k - постоянно растущее число (до числа n)
+* @brief Рассчитывает сумму n членов последовательности
+* @param n - число членов последовательности
 * @return Рассчитанное значение
 */
-double defSum(const int k);
+double defSumm(const int n);
 
 /**
-* @brief Рассчитывает факториал числа
-* @param k - число, факториал которого находится
+* @brief Рассчитывает рекурентной фоормулы с заданной точностью e
+* @param e - точность рассчёта
 * @return Рассчитанное значение
 */
-double Factorial(const int k);
+double defSummE(const double e);
 
 /**
 * @brief Считывает значение, введённое с клавиатуры, с проверкой ввода
@@ -23,10 +24,17 @@ double Factorial(const int k);
 double defValid();
 
 /**
+ * @brief Рассчитывает коэффициент рекуррентного выражения
+ * @param i - текущий индекс
+ * @return Рассчитанное значение коэффициента
+ */
+double getRecurent(const int i);
+
+/**
 * @brief Проверяет переменную на условие
 * @param input - значение проверяемой переменной
 */
-int CheckValue(input);
+void CheckValue(const double input);
 
 /**
 * @brief Точка входа в программу
@@ -36,33 +44,17 @@ int main(void)
 {
 	system("chcp 1251");
 
-	int k = 1;
-	double summ1 = 0;
-	double summ2 = 0;
+	printf("Введите целое число n: ");
+		int n = (int) defValid();
+			CheckValue(n);
 
-	printf("Введите целое число n (конечное значение суммы): ");
-		int n = defValid();
-	CheckValue(n);
+	printf("Сумма первых %d членов последовательности = %.10lf\n\n", n, defSumm(n));
 
 	printf("Введите число e: ");
 		double e = defValid();
+			CheckValue(e);
 
-	for (k; k <= n; k++)
-	{
-		summ1 += defSum(k);
-
-		if (fabs(defSum(k)) < e)
-		{
-			continue;
-		}
-		else
-		{
-			summ2 += defSum(k);
-		}
-	}
-
-	printf("Сумма первых %d членов = %.20lf\n", n, summ1);
-	printf("Сумма первых %d членов, по модулю не меньших чем %lf = %.10lf\n", n, e, summ2);
+	printf("Сумма членов последовательности с точностью %.2lf = %.10lf\n", e, defSummE(e));
 
 	return 0;
 }
@@ -73,34 +65,46 @@ double defValid()
 	if (!scanf_s("%lf", &valid))
 	{
 		printf("Error\n");
-		abort();
+		exit(1);
 	}
 
 	return valid;
 }
 
-int CheckValue(input)
+void CheckValue(const double input)
 {
-	if (input < 1)
+	if (!(input > 0))
 	{
-		printf("Error\n Число n должно быть не меньше 1\n");
-		abort();
+		printf("Error\n");
+		exit(1);
 	}
 }
 
-double defSum(const int k)
+double defSumm(const int n)
 {
-	return pow(-1, k) * k / Factorial(k + 1);
+	double current = -0.5;
+	double result = current;
+	for (int i = 1; i < n; i++)
+	{
+		current *= getRecurent(i);
+		result += current;
+	}
+	return result;
 }
 
-double Factorial(const int k)
+double defSummE(const double e)
 {
-	if (k <= 1)
+	double current = -0.5;
+	double result = 0;
+	for (int i = 1; fabs(current) > e; i++)
 	{
-		return 1;
+		result += current;
+		current *= getRecurent(i);
 	}
-	else
-	{
-		return k * Factorial(k - 1);
-	}
+	return result;
+}
+
+double getRecurent(const int i)
+{
+	return -1.0 * (i+1)/(pow(i,2) + 2*i);
 }
