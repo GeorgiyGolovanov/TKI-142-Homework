@@ -1,13 +1,14 @@
 #include<stdio.h>
 #include<math.h>
 #include<stdlib.h>
+#include<float.h>
 
 /**
 * @brief Рассчитывает значение функции в точке
 * @param x - точка
 * @return Рассчитанное значение
 */
-const double Function(const double x);
+const double function(const double x);
 
 /**
 * @brief Считывает значение, введённое с клавиатуры, с проверкой ввода
@@ -53,21 +54,16 @@ int main(void)
 		double step = defValid();
 	checkStep(step);
 
-
-	int countSTEP = (int)((end - start) / step);
-	int counter;
-
-	printf("%-9s %s\n", "x", "f(x)");
-	for (counter = 0; counter <= countSTEP; counter++)
+	printf("%-10s %s\n", "x", "f(x)");
+	for (double x = start; x <= end + DBL_EPSILON; x += step - DBL_EPSILON)
 	{
-		double x = start + step * counter;
 		if (checkX(x))
 		{
-			printf_s("%-10.2lf%.4lf\n", x, Function(x));
+			printf_s("%-10.2lf%s\n", x, "Функция неопределена");
 		}
 		else
 		{
-			printf_s("%-10.2lf%s\n", x, "Функция неопределена");
+			printf_s("%-10.2lf%.4lf\n", x, function(x));
 		}
 		
 	}
@@ -75,7 +71,7 @@ int main(void)
 	return 0;
 }
 
-const double Function(const double x)
+const double function(const double x)
 {
 	return sqrt(1 - x) - cos(sqrt(1 - x));
 }
@@ -86,32 +82,30 @@ double defValid()
 	if (!scanf_s("%lf", &valid))
 	{
 		printf("Error\n");
-		abort();
+		exit(1);
 	}
 	return valid;
 }
 
 void checkEndStart(const double start, const double end)
 {
-	if (start < end){}
-	else
+	if (!(start < end))
 	{
-		printf("Error\n Значения не должны совпадать\nЗначение начала не может быть больше конца\n");
-		abort();
+		printf("Error\n Значения не должны совпадать\n Значение начала не может быть больше значения конца\n");
+		exit(1);
 	}
 }
 
 void checkStep(const double step)
 {
-	if (step>0){}
-	else
+	if (step <= DBL_EPSILON)
 	{
 		printf("Error\n Шаг должен быть больше 0\n");
-		abort();
+		exit(1);
 	}
 }
 
 _Bool checkX(const double x)
 {
-	return !(x > 1);
+	return x > 1;
 }
