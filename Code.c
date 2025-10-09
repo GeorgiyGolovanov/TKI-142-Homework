@@ -1,12 +1,43 @@
 #include<stdio.h>
 #include<math.h>
 #include<stdlib.h>
+#include<float.h>
+
+
+/**
+* @brief Рассчитывает значение функции в точке
+* @param x - точка
+* @return Рассчитанное значение
+*/
+const double function(const double x);
+
+/**
+* @brief Рассчитывает значение рекурентной формулы с заданной точностью e
+* @param e - точность рассчёта 
+* @param x - значение параметра x, участвующее в расcчёте
+* @return Рассчитанное значение
+*/
+double defSummE(const double e, const double x);
 
 /**
 * @brief Считывает значение, введённое с клавиатуры, с проверкой ввода
 * @return Считанное значение
 */
 double defValid();
+
+/**
+ * @brief Рассчитывает коэффициент рекуррентного выражения
+ * @param i - текущий индекс
+ * @param x - значение параметра x, участвующее в раcсчёте
+ * @return Рассчитанное значение коэффициента
+ */
+double getRecurent(const int i, const double x);
+
+/**
+* @brief Проверяет переменную на условие
+* @param input - значение проверяемой переменной
+*/
+void CheckValue(const double input);
 
 /**
 * @brief Проверяет значения на условие
@@ -21,11 +52,6 @@ void checkEndStart(const double start, const double end);
 */
 void checkStep(const double step);
 
-/**
-* @brief Проверяет значение на условие
-* @param limit - лимит расчёта рекурентной функции
-*/
-void checkLimit(const int limit);
 
 /**
 * @brief Проверяет заначение на условие
@@ -35,21 +61,6 @@ void checkLimit(const int limit);
 _Bool checkX(const double x);
 
 /**
-* @brief Рассчитывает значение функции в точке
-* @param x - точка
-* @return Рассчитанное значение
-*/
-double Function(const double x);
-
-/**
-* @brief Рассчитывает значение по заданной формуле
-* @param x - переменная x
-* @param limit - лимит рекурсии
-* @return Рассчитанное значение
-*/
-double Sum(const double x, const int limit);
-
-/**
 * @brief Точка входа в программу
 * @return Возвращает 0, если программа была выполнена корректно, иначе 1
 */
@@ -57,53 +68,40 @@ int main(void)
 {
 	system("chcp 1251");
 
+	printf("Введите число e: ");
+	double e = defValid();
+	CheckValue(e);
+
 	printf("Введите начальное значение: ");
-		double start = defValid();
+	double start = defValid();
 	printf("Введите конечное значение: ");
-		double end = defValid();
+	double end = defValid();
 	checkEndStart(start, end);
 
 	printf("Введите шаг: ");
-	  double step = defValid();
+	double step = defValid();
 	checkStep(step);
 
-	printf("Введите лимит для рекурентной формуле (чем больше значение - тем точнее расчёт): ");
-		int limit = defValid();
-	checkLimit(limit);
-
-	int CountStep = (int)((end - start) / step);
-	int Counter;
-
-	printf("%-10s%-30s%-10s\n", "x", "f(x)", "Sum");
-	for (Counter = 0; Counter <= CountStep; Counter++)
+	printf("%-10s%-25s%-10s\n", "x", "f(x)", "Summ(x)");
+	for (double x = start; x <= end + DBL_EPSILON; x += step - DBL_EPSILON)
 	{
-		double x = start + step * Counter;
 		if (checkX(x))
 		{
-			printf("%-10.2lf%-30.4lf%-10.4lf\n", x, Function(x), Sum(x, limit));
+			printf_s("%-10.2lf%-25.4lf%-10.4lf\n", x, function(x), defSummE(e,x));
 		}
 		else
 		{
-			printf("%-10.2lf%-30s%-10.4lf\n", x, "Функция неопределена", Sum(x, limit));
+			printf_s("%-10.2lf%-25s%-10s\n", x, "Функция неопределена", "Сумма ряда неопределена");
 		}
+
 	}
+
 	return 0;
 }
 
-double Function(const double x)
+const double function(const double x)
 {
-	return 1.0 / 2 * log(x);
-}
-
-double Sum(const double x, const int limit)
-{
-	double summ = 0;
-	int n = 0;
-	for (n; n <= limit; n++)
-	{
-		summ += 1.0 / (2 * n + 1) * (pow((x - 1) / (x + 1), 2 * n + 1));
-	}
-	return summ;
+	return 1.0/2*log(x);
 }
 
 double defValid()
@@ -112,41 +110,57 @@ double defValid()
 	if (!scanf_s("%lf", &valid))
 	{
 		printf("Error\n");
-		abort();
+		exit(1);
 	}
+
 	return valid;
+}
+
+void CheckValue(const double input)
+{
+	if (!(input > 0))
+	{
+		printf("Error\n");
+		exit(1);
+	}
+}
+
+double defSummE(const double e, const double x)
+{
+	double current = (x-1)/(x+1);
+	double result = 0;
+	for (int i = 0; fabs(current) > e; i++)
+	{
+		result += current;
+		current *= getRecurent(i,x);
+	}
+	return result;
 }
 
 void checkEndStart(const double start, const double end)
 {
-	if (start < end) {}
-	else
+	if (!(start < end))
 	{
-		printf("Error\n Значения не должны совпадать\nЗначение начала не может быть больше конца\n");
-		abort();
+		printf("Error\n Значения не должны совпадать\n Значение начала не может быть больше значения конца\n");
+		exit(1);
 	}
 }
 
 void checkStep(const double step)
 {
-	if (step > 0) {}
-	else
+	if (step <= DBL_EPSILON)
 	{
 		printf("Error\n Шаг должен быть больше 0\n");
-		abort();
+		exit(1);
 	}
+}
+
+double getRecurent(const int i, const double x)
+{
+	return (2 * i * pow(x, 2) + pow(x, 2) - 4 * i * x - 2 * x + 2 * i + 1) / (2 * i * pow(x, 2) + 4 * i * x + 2 * i + 3 * pow(x, 2) + 6 * x + 3);
 }
 
 _Bool checkX(const double x)
 {
-	return (x > 0);
-}
-
-void checkLimit(const int limit)
-{
-	if (limit < 10)
-	{
-		printf("Error\nЗначение слишком маленькое или недопустимое");
-		abort();
-	}
+	return x > 0;
 }
