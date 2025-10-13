@@ -69,21 +69,14 @@ double defValid()
 	if (!scanf_s("%lf", &valid))
 	{
 		printf("Error\n");
-		abort();
+		exit(1);
 	}
 	return valid;
 }
 
 _Bool checkX(const double x)
 {
-	if (fabs(x) < DBL_EPSILON || x < 0) 
-	{
-		return 0;
-	}
-	else
-	{
-		return 1;
-	}
+	return (x>0);
 }
 
 const double F1(const double a, const double x)
