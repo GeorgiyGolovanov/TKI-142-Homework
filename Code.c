@@ -55,11 +55,11 @@ int main(void)
 	checkStep(step);
 
 	printf("%-10s %s\n", "x", "f(x)");
-	for (double x = start; x <= end + DBL_EPSILON; x += step - DBL_EPSILON)
+	for (double x = start; x < end + step + DBL_EPSILON; x += step)
 	{
 		if (checkX(x))
 		{
-			printf_s("%-10.2lf%s\n", x, "Функция неопределена");
+			printf_s("%-10.2lf%s\n", x, "Функция не определена");
 		}
 		else
 		{
