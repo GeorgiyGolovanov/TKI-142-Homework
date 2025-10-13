@@ -83,7 +83,7 @@ int main(void)
 	checkStep(step);
 
 	printf("%-10s%-25s%-10s\n", "x", "f(x)", "Summ(x)");
-	for (double x = start; x <= end + DBL_EPSILON; x += step - DBL_EPSILON)
+	for (double x = start; x < end + step + DBL_EPSILON; x += step)
 	{
 		if (checkX(x))
 		{
@@ -91,7 +91,7 @@ int main(void)
 		}
 		else
 		{
-			printf_s("%-10.2lf%-25s%-10s\n", x, "Функция неопределена", "Сумма ряда неопределена");
+			printf_s("%-10.2lf%-25s%-10s\n", x, "Функция не определена", "Сумма ряда не определена");
 		}
 
 	}
