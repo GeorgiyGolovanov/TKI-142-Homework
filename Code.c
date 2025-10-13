@@ -57,7 +57,7 @@ int main(void)
 	}
 	else
 	{
-		printf("Функция неопределена");
+		printf("Функция не определена");
 	}
 	
 	return 0;
