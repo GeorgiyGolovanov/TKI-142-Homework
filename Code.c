@@ -117,7 +117,7 @@ int main(void)
 	system("chcp 1251");
 
 	printf("Введите размер массива: ");
-		int size = getValid();
+		size_t size = (size_t)getValid();
 	checkValueForN(size);
 
 	int* A = malloc(sizeof(int) * size);
@@ -225,7 +225,7 @@ void defCheckMinMax(const int min, const int max)
 	}
 }
 
-void getRandom(int* arr, const size_t size, const int max, const int min)
+void getRandom(int* arr, const size_t size, const int min, const int max)
 {
 	srand(time(NULL));
 
@@ -248,7 +248,7 @@ void defPrintArr(int* arr, const size_t size)
 
 void checkValueForN(int input)
 {
-	if (input < 2)
+	if (input < 1)
 	{
 		printf("Error\nЧисло должно быть не меньше 2");
 		exit(1);
