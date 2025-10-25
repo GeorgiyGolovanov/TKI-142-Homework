@@ -250,7 +250,7 @@ void checkValueForN(int input)
 {
 	if (input < 1)
 	{
-		printf("Error\nЧисло должно быть не меньше 2");
+		printf("Error\nЧисло должно быть не меньше 1");
 		exit(1);
 	}
 }
