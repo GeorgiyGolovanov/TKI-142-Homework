@@ -41,7 +41,7 @@ void defForTask2(const int* arr, const size_t size);
 * @param arr - массив
 * @param size - размер массива
 */
-void defForTask3(const int* arr, const size_t size);
+void defForTask3(int* arr, const size_t size);
 
 /**
 * @brief Находит минимальное значение массива
@@ -236,7 +236,7 @@ void getRandom(int* arr, const size_t size, const int min, const int max)
 	}
 }
 
-void defPrintArr(int* arr, const size_t size)
+void defPrintArr(const int* arr, const size_t size)
 {
 
 	printf("\nВведённый массив: \n");
@@ -246,7 +246,7 @@ void defPrintArr(int* arr, const size_t size)
 	}
 }
 
-void checkValueForN(int input)
+void checkValueForN(const int input)
 {
 	if (input < 1)
 	{
@@ -255,7 +255,7 @@ void checkValueForN(int input)
 	}
 }
 
-int defForTask1(int* arr, const size_t size)
+int defForTask1(const int* arr, const size_t size)
 {
 	int summ = 0;
 	for (size_t i = 0; i < size; i++)
@@ -268,7 +268,7 @@ int defForTask1(int* arr, const size_t size)
 	return summ;
 }
 
-void defForTask2(int* arr, const size_t size)
+void defForTask2(const int* arr, const size_t size)
 {
 	_Bool chek = 0;
 
@@ -287,7 +287,7 @@ void defForTask2(int* arr, const size_t size)
 	}
 }
 
-int defMAXX(int* arr, const size_t size)
+int defMAXX(const int* arr, const size_t size)
 {
 	int maxx = arr[0];
 	for (size_t i = 0; i < size; i++)
@@ -310,7 +310,7 @@ int* defcopyArr(const int* arr, const size_t size)
 	return copyArr;
 }
 
-int defMINN(int* arr, const size_t size)
+int defMINN(const int* arr, const size_t size)
 {
 	int minn = arr[0];
 	for (size_t i = 0; i < size; i++)
