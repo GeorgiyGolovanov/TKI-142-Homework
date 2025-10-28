@@ -27,37 +27,37 @@ void checkValue(const int input, const int min, const int max);
 * @param size - размер массива
 * @return Посчитанное значение
 */
-int defForTask1(int* arr, const size_t size);
+int defForTask1(const int* arr, const size_t size);
 
 /**
 * @brief Находит индексы согласно условию 2
 * @param arr - массив
 * @param size - размер массива
 */
-void defForTask2(int* arr, const size_t size);
+void defForTask2(const int* arr, const size_t size);
 
 /**
 * @brief Создаёт новый массив согласно условию 3
 * @param arr - массив
 * @param size - размер массива
 */
-void defForTask3(int* arr, const size_t size);
+void defForTask3(const int* arr, const size_t size);
 
 /**
-* @brief Рассчитывает минимальное значение массива
+* @brief Находит минимальное значение массива
 * @param arr - массив
 * @param size - размер массива
 * @return Возвращaет минимальный элемент массива
 */
-int defMINN(int* arr, const size_t size);
+int defMINN(const int* arr, const size_t size);
 
 /**
-* @brief Рассчитывает максимальное значение массива
+* @brief Находит максимальное значение массива
 * @param arr - массив
 * @param size - размер массива
 * @return Возвращaет максимальный элемент массива
 */
-int defMAXX(int* arr, const size_t size);
+int defMAXX(const int* arr, const size_t size);
 
 /**
 @brief choiseOne - первый выбор (Ручное заполнение массива)
@@ -229,7 +229,7 @@ void getRandom(int* arr, const size_t size, const int min, const int max)
 {
 	srand(time(NULL));
 
-	for (int i = 0; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		int numm = (rand() % (max - min + 1)) + min;
 		arr[i] = numm;
@@ -250,7 +250,7 @@ void checkValueForN(int input)
 {
 	if (input < 1)
 	{
-		printf("Error\nЧисло должно быть не меньше 1");
+		printf("Error\nЧисло должно быть не меньше 2");
 		exit(1);
 	}
 }
