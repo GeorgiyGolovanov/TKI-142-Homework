@@ -369,6 +369,10 @@ void defTaskTwo(int** arr, size_t size_n, size_t size_m)
 		printArrays(arr, size_n, size_m);
 		printf("\nМассив не изменён\n");
 	}
+	else if (count == size_m)
+	{
+		printf("\nМассив пуст, все столбцы удалены\n");
+	}
 	else
 	{
 		int** newarr = getMakeArrays(size_n, size_m);
