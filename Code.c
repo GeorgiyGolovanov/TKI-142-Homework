@@ -114,6 +114,15 @@ void defTaskTwo(int** arr, size_t size_n, size_t size_m);
 enum {Manual=1,Random,TaskOne=1,TaskTwo};
 
 /**
+* @brief Находит, есть ли в столбце положительный нечётный элемент
+* @param arr - массив
+* @param size_n - количество строк массива
+* @param size_m - количесвто столбцов массива
+* @return Количесто положительных нечётных элементов (<=1 на столбец)
+*/
+const int findCountOddPositive(int** arr, size_t size_n, size_t size_m);
+
+/**
 * @brief Точка входа в программу
 * @return Возвращает 0, если программа была выполнена корректно, иначе 1
 */
@@ -353,35 +362,69 @@ void defTaskOne(int** arr, size_t size_n, size_t size_m)
 
 void defTaskTwo(int** arr, size_t size_n, size_t size_m)
 {
-	for (int l = 0;l < size_m; l++)
+	int count = findCountOddPositive(arr, size_n, size_m);
+
+	if (count == 0)
 	{
+		printArrays(arr, size_n, size_m);
+		printf("\nМассив не изменён\n");
+	}
+	else
+	{
+		int** newarr = getMakeArrays(size_n, size_m);
+		checkArraysFromMemory(newarr, size_n);
+
+		int* idx = malloc(sizeof(int) * size_m);
+		for (size_t i = 0; i < size_m; i++)
+		{
+			idx[i] = 1; 
+		}
+
 		for (size_t j = 0; j < size_m; j++)
 		{
 			for (size_t i = 0; i < size_n; i++)
 			{
-				if (!(arr[i][j] % 2 == 0) && (arr[i][j] > 0))
+				if (arr[i][j] % 2 != 0 && arr[i][j] > 0)
 				{
-					if (j == size_m - 1)
-					{
-						size_m = size_m - 1;
-					}
-					else
-					{
-						for (size_t i2 = 0; i2 < size_n; i2++)
-						{
-							for (size_t j2 = j; j2 < size_m - 1; j2++)
-							{
-								int temp = arr[i2][j2];
-								arr[i2][j2] = arr[i2][j2 + 1];
-								arr[i2][j2 + 1] = temp;
-							}
-						}
-						size_m = size_m - 1;
-					}
+					idx[j] = 0;
+					break;
 				}
 			}
 		}
-	}
 
-	printArrays(arr, size_n, size_m);
+		size_t next_idx = 0;
+		for (size_t j = 0; j < size_m; j++)
+		{
+			if (idx[j] == 1)
+			{ 
+				for (size_t i = 0; i < size_n; i++)
+				{
+					newarr[i][next_idx] = arr[i][j];
+				}
+				next_idx++;
+			}
+		}
+
+		printArrays(newarr, size_n, size_m - count);
+		printf("\nУдалено %d столбцов\n", count);
+		freeArraysMemory(newarr, size_n);
+		free(idx);
+	}
+}
+
+const int findCountOddPositive(int** arr, size_t size_n, size_t size_m)
+{
+	int count = 0;
+	for (size_t j = 0; j < size_m; j++)
+	{
+		for (size_t i = 0; i < size_n; i++)
+		{
+			if (arr[i][j] % 2 != 0 && arr[i][j] > 0)
+			{
+				count++;
+				break;
+			}
+		}
+	}
+	return count;
 }
