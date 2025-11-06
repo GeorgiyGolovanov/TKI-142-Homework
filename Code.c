@@ -2,6 +2,7 @@
 #include<math.h>
 #include<stdlib.h>
 #include<float.h>
+#include<stdbool.h>
 
 /**
 * @brief Рассчитывает значение функции в точке
@@ -34,7 +35,7 @@ void checkStep(const double step);
 * @param x - значение параметра x
 * @return Возвращает 0 или 1 в зависимости от истинности выражения
 */
-_Bool checkX(const double x);
+bool checkX(const double x);
 
 /**
 * @brief Точка входа в программу
@@ -45,17 +46,17 @@ int main(void)
 	system("chcp 1251");
 
 	printf("Введите начальное значение: ");
-		double start = defValid();
+	double start = defValid();
 	printf("Введите конечное значение: ");
-		double end = defValid();
+	double end = defValid();
 	checkEndStart(start, end);
 
 	printf("Введите шаг: ");
-		double step = defValid();
+	double step = defValid();
 	checkStep(step);
 
 	printf("%-10s %s\n", "x", "f(x)");
-	for (double x = start; x < end + step + DBL_EPSILON; x += step)
+	for (double x = start; x < end + step; x += step)
 	{
 		if (checkX(x))
 		{
@@ -65,7 +66,7 @@ int main(void)
 		{
 			printf_s("%-10.2lf%.4lf\n", x, function(x));
 		}
-		
+
 	}
 
 	return 0;
@@ -81,7 +82,7 @@ double defValid()
 	double valid = 0;
 	if (!scanf_s("%lf", &valid))
 	{
-		printf("Error\n");
+		fprintf(stderr,"Error\n");
 		exit(1);
 	}
 	return valid;
@@ -91,7 +92,7 @@ void checkEndStart(const double start, const double end)
 {
 	if (!(start < end))
 	{
-		printf("Error\n Значения не должны совпадать\n Значение начала не может быть больше значения конца\n");
+		fprintf(stderr,"Error\n Значения не должны совпадать\n Значение начала не может быть больше значения конца\n");
 		exit(1);
 	}
 }
@@ -100,12 +101,12 @@ void checkStep(const double step)
 {
 	if (step <= DBL_EPSILON)
 	{
-		printf("Error\n Шаг должен быть больше 0\n");
+		fprintf(stderr,"Error\n Шаг должен быть больше 0\n");
 		exit(1);
 	}
 }
 
-_Bool checkX(const double x)
+bool checkX(const double x)
 {
 	return x > 1;
 }
