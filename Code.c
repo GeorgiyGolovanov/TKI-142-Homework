@@ -40,7 +40,7 @@ void checkMinMaxForDigit(const int value);
 * @param size_m - количесвто столбцов массива
 * @return Массив
 */
-int** getMakeArrays(size_t size_n, size_t size_m);
+int** getMakeArrays(const size_t size_n, const size_t size_m);
 
 /**
 * @brief Создаёт новый массив, идентинчый элементами прообразу
@@ -49,14 +49,14 @@ int** getMakeArrays(size_t size_n, size_t size_m);
 * @param size_m - количесвто столбцов массива
 * @return Новый массив
 */
-int** getCopyArray(const int** arr, size_t size_n, size_t size_m);
+int** getCopyArray(const int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Проверяет, корректно ли выделилась память под массив
 * @param arr - массив
 * @param size_n - количество строк массива
 */
-void checkArraysFromMemory(const int** arr, size_t size_n);
+void checkArraysFromMemory(const int** arr, const size_t size_n);
 
 /**
 * @brief Выводит на экран полученный массив
@@ -64,7 +64,7 @@ void checkArraysFromMemory(const int** arr, size_t size_n);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void printArrays(const int** arr, size_t size_n, size_t size_m);
+void printArrays(const int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Заполняет массив элементами, который вводит пользователь
@@ -72,7 +72,7 @@ void printArrays(const int** arr, size_t size_n, size_t size_m);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void getManual(int** arr, size_t size_n, size_t size_m);
+void getManual(int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Заполняет массив случайными элементами
@@ -80,14 +80,14 @@ void getManual(int** arr, size_t size_n, size_t size_m);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void getRandom(int** arr, size_t size_n, size_t size_m);
+void getRandom(int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Очищает выделенную память под массив
 * @param arr - массив
 * @param size_n - количество строк массива
 */
-void freeArraysMemory(int** arr, size_t size_n);
+void freeArraysMemory(int** arr, const size_t size_n);
 
 /**
 * @brief Выводит новый массив согласно заданию №1
@@ -95,7 +95,7 @@ void freeArraysMemory(int** arr, size_t size_n);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void defTaskOne(int** arr, size_t size_n, size_t size_m);
+void defTaskOne(const int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Выводит новый массив согласно заданию №2
@@ -103,7 +103,7 @@ void defTaskOne(int** arr, size_t size_n, size_t size_m);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void defTaskTwo(int** arr, size_t size_n, size_t size_m);
+void defTaskTwo(const int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @param Manual - выбор ручного создания массива
@@ -120,7 +120,7 @@ enum {Manual=1,Random,TaskOne=1,TaskTwo};
 * @param size_m - количесвто столбцов массива
 * @return Количесто положительных нечётных элементов (<=1 на столбец)
 */
-const int findCountOddPositive(int** arr, size_t size_n, size_t size_m);
+const int findCountOddPositive(const int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Точка входа в программу
@@ -159,12 +159,13 @@ int main(void)
 		break;
 
 	default:
-		printf("Error\n	Ошибка выбора");
+		fprintf(stderr,"Error\n	Ошибка выбора");
 		freeArraysMemory(mainArray, size_n);
 		exit(1);
 	}
 
 	int** newArray = getCopyArray(mainArray,size_n,size_m);
+	checkArraysFromMemory(newArray, size_n);
 	printArrays(newArray, size_n, size_m);
 
 	printf("\nВыберите выполняемую операцию с массивом:\n%d - Заменить минимальный элемент каждой строки нулем\n%d - Удалить все столбцы, в которых встретится нечетный положительный элемент\n", TaskOne, TaskTwo);
@@ -180,7 +181,7 @@ int main(void)
 		break;
 
 	default:
-		printf("Error\n	Ошибка выбора");
+		fprintf(stderr,"Error\n	Ошибка выбора");
 		freeArraysMemory(newArray, size_n);
 		freeArraysMemory(mainArray, size_n);
 		exit(1);
@@ -197,13 +198,13 @@ const int getValidForSize()
 
 	if (!scanf_s("%d", &value))
 	{
-		printf("Error\n	Ошибка ввода размерности массива");
+		fprintf(stderr,"Error\n	Ошибка ввода размерности массива");
 		exit(1);
 	}
 
 	if (value < 1)
 	{
-		printf("Error\n	Ошибка ввода размерности массива");
+		fprintf(stderr,"Error\n	Ошибка ввода размерности массива");
 		exit(1);
 	}
 
@@ -216,7 +217,7 @@ int getValidForDigit()
 
 	if (!scanf_s("%d", &value))
 	{
-		printf("Error\n	Ошибка ввода");
+		fprintf(stderr,"Error\n	Ошибка ввода");
 		exit(1);
 	}
 
@@ -227,7 +228,7 @@ void check_min_max(const int min_, const int max_)
 {
 	if (min_ >= max_)
 	{
-		printf("Error\n	Ошибка ввода промежутка");
+		fprintf(stderr,"Error\n	Ошибка ввода промежутка");
 		exit(1);
 	}
 }
@@ -236,12 +237,12 @@ void checkMinMaxForDigit(const int value)
 {
 	if (value > max || value < min)
 	{
-		printf("Error\n	Ошибка ввода, число вне промежутка");
+		fprintf(stderr,"Error\n	Ошибка ввода, число вне промежутка");
 		exit(1);
 	}
 }
 
-int** getMakeArrays(size_t size_n, size_t size_m)
+int** getMakeArrays(const size_t size_n, const size_t size_m)
 {
 	int** arr = malloc(sizeof(int*) * size_n);
 	for (size_t i = 0; i < size_n; i++)
@@ -252,11 +253,11 @@ int** getMakeArrays(size_t size_n, size_t size_m)
 	return arr;
 }
 
-void checkArraysFromMemory(const int** arr, size_t size_n)
+void checkArraysFromMemory(const int** arr, const size_t size_n)
 {
 	if (arr == NULL)
 	{
-		printf("Error\n	Ошибка выделения памяти под массив");
+		fprintf(stderr,"Error\n	Ошибка выделения памяти под массив");
 		exit(1);
 	}
 	else
@@ -265,15 +266,17 @@ void checkArraysFromMemory(const int** arr, size_t size_n)
 		{
 			if (arr[i] == NULL)
 			{
-				printf("Error\n	Ошибка выделения памяти под массив");
+				fprintf(stderr,"Error\n	Ошибка выделения памяти под массив");
 				exit(1);
 			}
 		}
 	}
 }
 
-void printArrays(const int** arr, size_t size_n, size_t size_m)
+void printArrays(const int** arr, const size_t size_n, const size_t size_m)
 {
+	checkArraysFromMemory(arr, size_n);
+
 	printf("\nПолученный массив:\n");
 	for (size_t i = 0; i < size_n; i++)
 	{
@@ -285,8 +288,10 @@ void printArrays(const int** arr, size_t size_n, size_t size_m)
 	}
 }
 
-void getManual(int** arr, size_t size_n, size_t size_m)
+void getManual(int** arr, const size_t size_n, const size_t size_m)
 {
+	checkArraysFromMemory(arr, size_n);
+
 	printf("\nВведите %d элементов массива:\n", size_n*size_m);
 	for (size_t i = 0; i < size_n; i++)
 	{
@@ -294,14 +299,15 @@ void getManual(int** arr, size_t size_n, size_t size_m)
 		{
 			int num = getValidForDigit();
 			checkMinMaxForDigit(num);
-			printf("A[%d][%d] = %d\n", i, j, num);
+			printf("A[%zu][%zu] = %d\n", i, j, num);
 			arr[i][j] = num;
 		}
 	}
 }
 
-void getRandom(int** arr, size_t size_n, size_t size_m)
+void getRandom(int** arr, const size_t size_n, const size_t size_m)
 {
+	checkArraysFromMemory(arr, size_n);
 	srand(time(NULL));
 
 	for (size_t i = 0; i < size_n; i++)
@@ -313,8 +319,10 @@ void getRandom(int** arr, size_t size_n, size_t size_m)
 	}
 }
 
-void freeArraysMemory(int** arr, size_t size_n)
+void freeArraysMemory(int** arr, const size_t size_n)
 {
+	checkArraysFromMemory(arr, size_n);
+
 	for (size_t i = 0; i < size_n; i++)
 	{
 		free(arr[i]);
@@ -322,8 +330,10 @@ void freeArraysMemory(int** arr, size_t size_n)
 	free(arr);
 }
 
-int** getCopyArray(const int** arr, size_t size_n, size_t size_m)
+int** getCopyArray(const int** arr, const size_t size_n, const size_t size_m)
 {
+	checkArraysFromMemory(arr, size_n);
+
 	int** array = getMakeArrays(size_n, size_m);
 	checkArraysFromMemory(array,size_n);
 
@@ -338,8 +348,10 @@ int** getCopyArray(const int** arr, size_t size_n, size_t size_m)
 	return array;
 }
 
-void defTaskOne(int** arr, size_t size_n, size_t size_m)
+void defTaskOne(int** arr,const size_t size_n, const size_t size_m)
 {
+	checkArraysFromMemory(arr, size_n);
+
 	for (size_t i = 0; i < size_n; i++)
 	{
 		int minimum = arr[i][0];
@@ -360,8 +372,9 @@ void defTaskOne(int** arr, size_t size_n, size_t size_m)
 	printArrays(arr, size_n, size_m);
 }
 
-void defTaskTwo(int** arr, size_t size_n, size_t size_m)
+void defTaskTwo(int** arr, const size_t size_n, const size_t size_m)
 {
+	checkArraysFromMemory(arr, size_n);
 	int count = findCountOddPositive(arr, size_n, size_m);
 
 	if (count == 0)
@@ -416,8 +429,10 @@ void defTaskTwo(int** arr, size_t size_n, size_t size_m)
 	}
 }
 
-const int findCountOddPositive(int** arr, size_t size_n, size_t size_m)
+const int findCountOddPositive(int** arr, const size_t size_n, const size_t size_m)
 {
+	checkArraysFromMemory(arr, size_n);
+
 	int count = 0;
 	for (size_t j = 0; j < size_m; j++)
 	{
