@@ -11,13 +11,13 @@
 int getValid();
 
 /**
-* @brief Проверяет переменную на условие
+* @brief Проверяет что переменная не меньше единицы
 * @param input - значение проверяемой переменной
 */
 void checkValueForN(const int input);
 
 /**
-* @brief Проверяет переменную на условие
+* @brief Проверяет лежит ли переменная в интервале [min;max]
 * @param input - значение проверяемой переменной
 */
 void checkValue(const int input, const int min, const int max);
@@ -67,16 +67,16 @@ bool findOne(int input);
 const int defcountOne(const int* arr, const size_t size);
 
 /**
-@brief choiseOne - первый выбор (Ручное заполнение массива)
-@brief  choiseTwo - второй выбор (Автоматическое заполнение массива)
-@brief  taskOne - выполнение первого задания
-@brief  taskTwo - выполнение второго задания
-@brief  taskThree - выполнение третьего задания
+@brief CHOISE_ONE - первый выбор (Ручное заполнение массива)
+@brief  CHOISE_TWO - второй выбор (Автоматическое заполнение массива)
+@brief  TASK_ONE - выполнение первого задания
+@brief  TASK_TWO - выполнение второго задания
+@brief  TASK_THREE - выполнение третьего задания
 */
-enum { choiseOne = 1, choiseTwo, taskOne = 1, taskTwo, taskThree };
+enum { CHOISE_ONE = 1, CHOISE_TWO, TASK_ONE = 1, TASK_TWO, TASK_THREE };
 
 /**
-* @brief Проверяет значения на условие
+* @brief Проверяет интервал на корректность ввода
 * @param min - минимально возможный элемент массива
 * @param max - максимально возможный элемент массива
 */
@@ -119,7 +119,7 @@ int* defcopyArr(const int* arr, const size_t size);
 * @brief Проверяет, удалось ли выделить память для массива
 * @param arr - массив
 */
-void checkMemory(const int* arr);
+void check_pointer(const int* arr);
 
 /**
 * @brief Точка входа в программу
@@ -133,25 +133,25 @@ int main(void)
 	size_t size = (size_t)getValid();
 	checkValueForN(size);
 
-	int* A = malloc(sizeof(int) * size);
-	checkMemory(A);
+	int* A = calloc(size, sizeof(int));
+	check_pointer(A);
 
 	printf("Введите диапазон, в котором будут задаваться числа массива: \n");
-	int min = getValid();
-	int max = getValid();
+	const int min = getValid();
+	const int max = getValid();
 	defCheckMinMax(min, max);
 	printf("Числа массива будут в диапазоне [%d,%d]", min, max);
 
-	printf("\nКак будет заполнен массив?\n %d - Ручной ввод\n %d - Автоматический ввод\n", choiseOne, choiseTwo);
+	printf("\nКак будет заполнен массив?\n %d - Ручной ввод\n %d - Автоматический ввод\n", CHOISE_ONE, CHOISE_TWO);
 	int choise = getValid();
 
 	switch (choise)
 	{
-	case choiseOne:
+	case CHOISE_ONE:
 		getManual(A, size, min, max);
 		break;
 
-	case choiseTwo:
+	case CHOISE_TWO:
 		getRandom(A, size, min, max);
 		break;
 
@@ -163,24 +163,24 @@ int main(void)
 
 	defPrintArr(A, size);
 	int* copyA = defcopyArr(A, size);
-	checkMemory(copyA);
+	check_pointer(copyA);
 
 	int* AforTask3 = defForTask3(copyA, size);
 
-	printf("\nКакие будут преобразования?\n%d - Заменить максимальный элемент массива на противоположный по знаку\n%d - Вставить максимальный элемент массива после всех элементов, в которых есть цифра 1\n%d - Из элементов массива C сформировать массив A той же размерности по правилу: первые 10 элементов находятся по формуле: A[i]=C[i]+i, иначе A[i]=C[i]-i.\n", taskOne, taskTwo, taskThree);
+	printf("\nКакие будут преобразования?\n%d - Заменить максимальный элемент массива на противоположный по знаку\n%d - Вставить максимальный элемент массива после всех элементов, в которых есть цифра 1\n%d - Из элементов массива C сформировать массив A той же размерности по правилу: первые 10 элементов находятся по формуле: A[i]=C[i]+i, иначе A[i]=C[i]-i.\n", TASK_ONE, TASK_TWO, TASK_THREE);
 	int second_choise = getValid();
 
 	switch (second_choise)
 	{
-	case taskOne:
+	case TASK_ONE:
 		defForTask1(copyA, size);
 		break;
 
-	case taskTwo:
+	case TASK_TWO:
 		defForTask2(copyA, size);
 		break;
 
-	case taskThree:
+	case TASK_THREE:
 		defPrintArr(AforTask3, size);
 		break;
 
@@ -221,7 +221,7 @@ void checkValue(const int input, const int min, const int max)
 
 void getManual(int* arr, const size_t size, const int min, const int max)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	printf("\nВведи %d элемент-а(ов) массива:\n", size);
 	for (size_t i = 0; i < size; i++)
@@ -244,7 +244,7 @@ void defCheckMinMax(const int min, const int max)
 
 void getRandom(int* arr, const size_t size, const int min, const int max)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 	srand(time(NULL));
 
 	for (size_t i = 0; i < size; i++)
@@ -256,7 +256,7 @@ void getRandom(int* arr, const size_t size, const int min, const int max)
 
 void defPrintArr(const int* arr, const size_t size)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	printf("\nВведённый массив: \n");
 	for (size_t i = 0; i < size; i++)
@@ -276,7 +276,7 @@ void checkValueForN(const int input)
 
 void defForTask1(int* arr, const size_t size)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	const int defmax = defMAXX(arr, size);
 	printf("\nНовый массив: \n");
@@ -293,13 +293,13 @@ void defForTask1(int* arr, const size_t size)
 
 void defForTask2(const int* arr, const size_t size)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	const int max = defMAXX(arr, size);
 	size_t newsize = size + defcountOne(arr, size);
 
 	int* newarr = malloc(sizeof(int) * newsize);
-	checkMemory(newarr, newsize);
+	check_pointer(newarr);
 	
 	printf("\nНовый массив: \n");
 	size_t j = 0;
@@ -313,14 +313,16 @@ void defForTask2(const int* arr, const size_t size)
 
 		printf("%d\n", newarr[i]);
 	}
+
+	free(newarr);
 }
 
 int* defForTask3(const int* arr, const size_t size)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	int* newarr = malloc(sizeof(int) * size);
-	checkMemory(newarr, size);
+	check_pointer(newarr);
 
 	for (size_t i = 0; i < size; i++)
 	{
@@ -339,7 +341,7 @@ int* defForTask3(const int* arr, const size_t size)
 
 int defMAXX(const int* arr, const size_t size)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	int maxx = arr[0];
 	for (size_t i = 0; i < size; i++)
@@ -354,10 +356,10 @@ int defMAXX(const int* arr, const size_t size)
 
 int* defcopyArr(const int* arr, const size_t size)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	int* copyArr = malloc(sizeof(int) * size);
-	checkMemory(copyArr, size);
+	check_pointer(copyArr);
 
 	for (size_t i = 0; i < size; i++)
 	{
@@ -376,7 +378,7 @@ bool findOne(int input)
 	}
 	else
 	{
-		while ((int)(log10(input)) >= 0)
+		while (input > 0)
 		{
 			if (input == 1 || input%10 == 1)
 			{
@@ -394,7 +396,7 @@ bool findOne(int input)
 
 const int defcountOne(const int* arr, const size_t size)
 {
-	checkMemory(arr);
+	check_pointer(arr);
 
 	int count = 0;
 	for (size_t i = 0; i < size; i++)
@@ -407,7 +409,7 @@ const int defcountOne(const int* arr, const size_t size)
 	return count;
 }
 
-void checkMemory(const int* arr)
+void check_pointer(const int* arr)
 {
 	if (arr == NULL)
 	{
