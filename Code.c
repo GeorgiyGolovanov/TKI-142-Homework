@@ -298,7 +298,7 @@ void defForTask2(const int* arr, const size_t size)
 	const int max = defMAXX(arr, size);
 	size_t newsize = size + defcountOne(arr, size);
 
-	int* newarr = malloc(sizeof(int) * newsize);
+	int* newarr = calloc(newsize,sizeof(int));
 	check_pointer(newarr);
 	
 	printf("\nНовый массив: \n");
@@ -321,7 +321,7 @@ int* defForTask3(const int* arr, const size_t size)
 {
 	check_pointer(arr);
 
-	int* newarr = malloc(sizeof(int) * size);
+	int* newarr = calloc(size,sizeof(int));
 	check_pointer(newarr);
 
 	for (size_t i = 0; i < size; i++)
@@ -358,7 +358,7 @@ int* defcopyArr(const int* arr, const size_t size)
 {
 	check_pointer(arr);
 
-	int* copyArr = malloc(sizeof(int) * size);
+	int* copyArr = calloc(size,sizeof(int));
 	check_pointer(copyArr);
 
 	for (size_t i = 0; i < size; i++)
