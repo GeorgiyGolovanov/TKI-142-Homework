@@ -98,14 +98,14 @@ void getManual(int* arr, const size_t size, const int min, const int max);
 * @param min - минимально возможный элемент массива
 * @param max - максимально возможный элемент массива
 */
-void getRandom(int* arr, const size_t size, const int max, const int min);
+void getRandom(int* arr, const size_t size, const int min, const int max);
 
 /**
 * @brief Выводит все элементы массива на экран
 * @param arr - массив
 * @param size - размер массива
 */
-void defPrintArr(int* arr, const size_t size);
+void defPrintArr(const int* arr, const size_t size);
 
 /**
 * @brief Копирует все элементы массива в новый
@@ -223,7 +223,7 @@ void getManual(int* arr, const size_t size, const int min, const int max)
 {
 	check_pointer(arr);
 
-	printf("\nВведи %d элемент-а(ов) массива:\n", size);
+	printf("\nВведи %zu элемент-а(ов) массива:\n", size);
 	for (size_t i = 0; i < size; i++)
 	{
 		int num = getValid();
@@ -258,7 +258,7 @@ void defPrintArr(const int* arr, const size_t size)
 {
 	check_pointer(arr);
 
-	printf("\nВведённый массив: \n");
+	printf("\nМассив: \n");
 	for (size_t i = 0; i < size; i++)
 	{
 		printf("%d\n", arr[i]);
@@ -301,19 +301,34 @@ void defForTask2(const int* arr, const size_t size)
 	int* newarr = calloc(newsize,sizeof(int));
 	check_pointer(newarr);
 	
-	printf("\nНовый массив: \n");
 	size_t j = 0;
-	for (size_t i = 0; i < newsize; i++)
+	for (size_t i = 0; i < size; i++)
 	{
-		newarr[j++] = arr[i];
-		if (findOne(arr[i]) == 1)
+		if (j < newsize)
 		{
-			newarr[j++] = max;
+			newarr[j++] = arr[i];
+		}
+		else
+		{
+			fprintf(stderr, "Error");
+			exit(1);
 		}
 
-		printf("%d\n", newarr[i]);
+		if (findOne(arr[i]) == 1)
+		{
+			if (j < newsize)
+			{
+				newarr[j++] = max;
+			}
+			else
+			{
+				fprintf(stderr, "Error");
+				exit(1);
+			}
+		}
 	}
 
+	defPrintArr(newarr, newsize);
 	free(newarr);
 }
 
@@ -371,27 +386,19 @@ int* defcopyArr(const int* arr, const size_t size)
 bool findOne(int input)
 {
 	input = abs(input);
-	bool check = 0;
 	if (input == 0)
 	{
 		return 0;
 	}
-	else
+	while (input > 0)
 	{
-		while (input > 0)
+		if (input%10 == 1)
 		{
-			if (input == 1 || input%10 == 1)
-			{
-				check = 1;
-				return 1;
-			}
-			input = input / 10;
+			return 1;
 		}
-		if (check = 0)
-		{
-			return 0;
-		}
+		input = input / 10;
 	}
+	return 0;
 }
 
 const int defcountOne(const int* arr, const size_t size)
