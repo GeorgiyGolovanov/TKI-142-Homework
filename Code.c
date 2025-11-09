@@ -6,7 +6,7 @@
 * @brief Считывает число с проверкой ввода и проверяет на условие
 * @return Число
 */
-const int getValidForSize();
+const size_t getValidForSize();
 
 /**
 * @brief Считывает число с проверкой ввода
@@ -49,14 +49,14 @@ int** getMakeArrays(const size_t size_n, const size_t size_m);
 * @param size_m - количесвто столбцов массива
 * @return Новый массив
 */
-int** getCopyArray(const int** arr, const size_t size_n, const size_t size_m);
+int** getCopyArray(int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Проверяет, корректно ли выделилась память под массив
 * @param arr - массив
 * @param size_n - количество строк массива
 */
-void checkArraysFromMemory(const int** arr, const size_t size_n);
+void checkArraysFromMemory(int** arr, const size_t size_n);
 
 /**
 * @brief Выводит на экран полученный массив
@@ -64,7 +64,7 @@ void checkArraysFromMemory(const int** arr, const size_t size_n);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void printArrays(const int** arr, const size_t size_n, const size_t size_m);
+void printArrays(int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Заполняет массив элементами, который вводит пользователь
@@ -95,7 +95,7 @@ void freeArraysMemory(int** arr, const size_t size_n);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void defTaskOne(const int** arr, const size_t size_n, const size_t size_m);
+void defTaskOne(int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Выводит новый массив согласно заданию №2
@@ -103,15 +103,15 @@ void defTaskOne(const int** arr, const size_t size_n, const size_t size_m);
 * @param size_n - количество строк массива
 * @param size_m - количесвто столбцов массива
 */
-void defTaskTwo(const int** arr, const size_t size_n, const size_t size_m);
+void defTaskTwo(int** arr, const size_t size_n, const size_t size_m);
 
 /**
-* @param Manual - выбор ручного создания массива
-* @param Random - выбор автоматического создания массива
-* @param TaskOne - выбор первого задания
-* @param TaskTwo - выбор второго задания
+* @param MANUAL - выбор ручного создания массива
+* @param RANDOM - выбор автоматического создания массива
+* @param TASK_ONE - выбор первого задания
+* @param TASK_TWO - выбор второго задания
 */
-enum {Manual=1,Random,TaskOne=1,TaskTwo};
+enum {MANUAL=1,RANDOM,TASK_ONE=1,TASK_TWO};
 
 /**
 * @brief Находит, есть ли в столбце положительный нечётный элемент
@@ -120,7 +120,7 @@ enum {Manual=1,Random,TaskOne=1,TaskTwo};
 * @param size_m - количесвто столбцов массива
 * @return Количесто положительных нечётных элементов (<=1 на столбец)
 */
-const int findCountOddPositive(const int** arr, const size_t size_n, const size_t size_m);
+const int findCountOddPositive(int** arr, const size_t size_n, const size_t size_m);
 
 /**
 * @brief Точка входа в программу
@@ -146,15 +146,15 @@ int main(void)
 	int** mainArray = getMakeArrays(size_n, size_m);
 	checkArraysFromMemory(mainArray, size_n);
 
-	printf("\nВыберите метод заполнение массива:\n%d - Ручное заполнение массива\n%d - Автоматическое заполнение массива\n", Manual, Random);
+	printf("\nВыберите метод заполнение массива:\n%d - Ручное заполнение массива\n%d - Автоматическое заполнение массива\n", MANUAL, RANDOM);
 	int firstChoise = getValidForDigit();
 	switch (firstChoise)
 	{
-	case Manual:
+	case MANUAL:
 		getManual(mainArray, size_n, size_m);
 		break;
 
-	case Random:
+	case RANDOM:
 		getRandom(mainArray, size_n, size_m);
 		break;
 
@@ -168,15 +168,15 @@ int main(void)
 	checkArraysFromMemory(newArray, size_n);
 	printArrays(newArray, size_n, size_m);
 
-	printf("\nВыберите выполняемую операцию с массивом:\n%d - Заменить минимальный элемент каждой строки нулем\n%d - Удалить все столбцы, в которых встретится нечетный положительный элемент\n", TaskOne, TaskTwo);
+	printf("\nВыберите выполняемую операцию с массивом:\n%d - Заменить минимальный элемент каждой строки нулем\n%d - Удалить все столбцы, в которых встретится нечетный положительный элемент\n", TASK_ONE, TASK_TWO);
 	int secondChoise = getValidForDigit();
 	switch (secondChoise)
 	{
-	case TaskOne:
+	case TASK_ONE:
 		defTaskOne(newArray, size_n, size_m);
 		break;
 
-	case TaskTwo:
+	case TASK_TWO:
 		defTaskTwo(newArray, size_n, size_m);
 		break;
 
@@ -192,11 +192,11 @@ int main(void)
 	return 0;
 }
 
-const int getValidForSize()
+const size_t getValidForSize()
 {
-	int value = 0;
+	size_t value = 0;
 
-	if (!scanf_s("%d", &value))
+	if (!scanf_s("%zu", &value))
 	{
 		fprintf(stderr,"Error\n	Ошибка ввода размерности массива");
 		exit(1);
@@ -244,16 +244,16 @@ void checkMinMaxForDigit(const int value)
 
 int** getMakeArrays(const size_t size_n, const size_t size_m)
 {
-	int** arr = malloc(sizeof(int*) * size_n);
+	int** arr = calloc(size_n,sizeof(int*));
 	for (size_t i = 0; i < size_n; i++)
 	{
-		arr[i] = malloc(sizeof(int) * size_m);
+		arr[i] = calloc(size_m,sizeof(int));
 	}
 
 	return arr;
 }
 
-void checkArraysFromMemory(const int** arr, const size_t size_n)
+void checkArraysFromMemory(int** arr, const size_t size_n)
 {
 	if (arr == NULL)
 	{
@@ -273,7 +273,7 @@ void checkArraysFromMemory(const int** arr, const size_t size_n)
 	}
 }
 
-void printArrays(const int** arr, const size_t size_n, const size_t size_m)
+void printArrays(int** arr, const size_t size_n, const size_t size_m)
 {
 	checkArraysFromMemory(arr, size_n);
 
@@ -292,7 +292,7 @@ void getManual(int** arr, const size_t size_n, const size_t size_m)
 {
 	checkArraysFromMemory(arr, size_n);
 
-	printf("\nВведите %d элементов массива:\n", size_n*size_m);
+	printf("\nВведите %zu элементов массива:\n", size_n*size_m);
 	for (size_t i = 0; i < size_n; i++)
 	{
 		for (size_t j = 0; j < size_m; j++)
@@ -330,7 +330,7 @@ void freeArraysMemory(int** arr, const size_t size_n)
 	free(arr);
 }
 
-int** getCopyArray(const int** arr, const size_t size_n, const size_t size_m)
+int** getCopyArray(int** arr, const size_t size_n, const size_t size_m)
 {
 	checkArraysFromMemory(arr, size_n);
 
@@ -355,7 +355,7 @@ void defTaskOne(int** arr,const size_t size_n, const size_t size_m)
 	for (size_t i = 0; i < size_n; i++)
 	{
 		int minimum = arr[i][0];
-		int idx = 0;
+		size_t idx = 0;
 
 		for (size_t j = 0; j < size_m; j++)
 		{
@@ -391,7 +391,7 @@ void defTaskTwo(int** arr, const size_t size_n, const size_t size_m)
 		int** newarr = getMakeArrays(size_n, size_m);
 		checkArraysFromMemory(newarr, size_n);
 
-		int* idx = malloc(sizeof(int) * size_m);
+		int* idx = calloc(size_m,sizeof(int));
 		for (size_t i = 0; i < size_m; i++)
 		{
 			idx[i] = 1; 
@@ -418,7 +418,16 @@ void defTaskTwo(int** arr, const size_t size_n, const size_t size_m)
 				{
 					newarr[i][next_idx] = arr[i][j];
 				}
-				next_idx++;
+
+				if (next_idx < size_m - count)
+				{
+					next_idx++;
+				}
+				else
+				{
+					fprintf(stderr, "Error");
+					exit(1);
+				}
 			}
 		}
 
