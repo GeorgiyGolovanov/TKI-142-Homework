@@ -343,11 +343,18 @@ int* defForTask3(const int* arr, const size_t size)
 	{
 		if (i < 10)
 		{
-			newarr[i] = arr[i] + i;
+			if (arr[i] % 2 == 0)
+			{
+				newarr[i] = arr[i] + i;
+			}
+			else
+			{
+				newarr[i] = arr[i] - i;
+			}
 		}
 		else
 		{
-			newarr[i] = arr[i] - i;
+			newarr[i] = arr[i];
 		}
 	}
 
