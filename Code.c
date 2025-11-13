@@ -98,7 +98,7 @@ void getRandom(int* arr, const size_t size, const int min, const int max);
 * @param arr - массив
 * @param size - размер массива
 */
-void defPrintArr(int* arr, const size_t size);
+void defPrintArr(const int* arr, const size_t size);
 
 /**
 * @brief Копирует все элементы массива в новый
