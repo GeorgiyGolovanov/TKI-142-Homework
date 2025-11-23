@@ -140,8 +140,8 @@ int main(void)
 	check_pointer(A);
 
 	printf("Введите диапазон, в котором будут задаваться числа массива: \n");
-	int min = getValid();
-	int max = getValid();
+	const int min = getValid();
+	const int max = getValid();
 	defCheckMinMax(min, max);
 	printf("Числа массива будут задаваться в диапазоне [%d,%d]\n",min,max);
 
