@@ -427,7 +427,7 @@ void check_pointer(const int* arr)
 {
 	if (arr == NULL)
 	{
-		printf("Error");
+		fprintf(stderr, "Error");
 		exit(1);
 	}
 }
