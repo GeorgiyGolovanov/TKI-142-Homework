@@ -244,6 +244,13 @@ void checkMinMaxForDigit(const int value, const int min, const int max)
 int** getMakeArrays(const size_t size_n, const size_t size_m)
 {
 	int** arr = calloc(size_n,sizeof(int*));
+
+	if (arr == NULL)
+	{
+		fprintf(stderr, "Error\n	Ошибка выделения памяти под массив");
+		exit(1);
+	}
+
 	for (size_t i = 0; i < size_n; i++)
 	{
 		arr[i] = calloc(size_m,sizeof(int));
